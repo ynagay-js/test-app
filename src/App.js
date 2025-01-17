@@ -1,27 +1,20 @@
 import React, { useState } from 'react';
+import Counter from './components/Counter';
+import './styles/App.css'
+import PostItem from './components/PostItem';
+
 
 function App() {
 
- const [likes, setLikes] = useState(5);
  const [value, setValue] = useState('Input text here');
- console.log(likes);
 
- function plus() {
-  setLikes(likes + 1);
- }
-
- function minus() {
-  setLikes(likes - 1);
- }
 
   return (
-    <div className="App">
-      <h1>{likes}</h1>
+    <div className='App'>
       <h2>{value}</h2>
       <input type='text' value={value} onChange={event => setValue(event.target.value) }></input>
-      <button onClick={plus}>Plus</button>
-      <button onClick={minus}>Minus</button>
-      
+      <Counter/>
+      <PostItem post={{id: 1, title: "JavaScript", description: "Javascript - язык программирования"}}/>
     </div>
   );
 }
