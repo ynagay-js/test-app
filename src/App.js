@@ -1,10 +1,8 @@
 import React, { useRef, useState } from "react";
 import Counter from "./components/Counter";
 import "./styles/App.css";
-import PostItem from "./components/PostItem";
+import PostForm from "./components/PostForm";
 import PostList from "./components/PostList";
-import MyButton from "./components/UI/button/MyButton";
-import MyInput from "./components/UI/input/MyInput";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -25,41 +23,29 @@ function App() {
     },
   ]);
 
-  const [title, setTitle] = useState('');
-  const [article, setArticle] = useState('');
-  // 123 const bodyInputRef = useRef();
-  
-  const addNewPost = (e) => {
-    e.preventDefault();
-    const newPost = {
-      id: Date.now(),
-      title,
-      description: article
-    }
-
-    console.log(newPost);
-    
+  const createPost = (newPost) => {
     setPosts([...posts, newPost])
-    setTitle('');    
-    setArticle('');
-
-    // 123 console.log(bodyInputRef.current.value);
   }
+
+  //Получение post из дочернего компонента
+
+  const removePost = (post) => {
+    setPosts(posts.filter(p => p.id !== post.id))
+  }
+
+  // 2 const [title, setTitle] = useState('');
+  // 2 const [article, setArticle] = useState('');
+  // 1 const bodyInputRef = useRef();
+
+
 
   return (
     <div className="App">
-      <form>
-        {/*Управляемый компонент*/}
-
-        <MyInput onChange={events => setTitle(events.target.value)} value={title} type="text" placeholder="Post Name"/>
-        <MyInput onChange={events => setArticle(events.target.value)} value={article} type="text" placeholder="Post Description"/>
-
-        {/* 123 Неуправляемый/Неконтролируемый компонент
-        <MyInput ref={bodyInputRef} type="text" placeholder="Post Description"/> */}
-
-        <MyButton onClick={addNewPost}>Create Post</MyButton>
-      </form>
-      <PostList posts={posts} title='Список постов:'/>
+      <PostForm create={createPost} />
+      {posts.length !== 0
+        ? <PostList remove={removePost} posts={posts} title='Список постов:' />
+        : <h2 style = {{textAlign: 'center'}}>No post here</h2>
+      }
     </div>
   );
 }
